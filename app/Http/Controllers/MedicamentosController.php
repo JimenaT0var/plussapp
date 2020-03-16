@@ -3,7 +3,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Horario;
+use App\medicamento;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
@@ -19,9 +19,9 @@ class MedicamentosController extends ApiController
      */
     public function index()
     {
-        $medicamento = Medicamento::all();
+        $medicamentos = medicamento::all();
     
-        return $this->showAll($medicamento);
+        return $this->showAll($medicamentos);
     }
 
     /**
@@ -44,8 +44,8 @@ class MedicamentosController extends ApiController
     {
         $reglas = [
 
-        'nombre_m' => 'required',
-        'descripcion_m' => 'required',
+        'nom_m' => 'required',
+        'desc_m' => 'required',
         'solucion_m' => 'required',
         'porcion_m' => 'required',
         'existencia' => 'required',
@@ -59,9 +59,9 @@ class MedicamentosController extends ApiController
 /*
         
 */
-       $medicamento = Medicamento::create($medicamento);
+       $medicamentos = medicamento::create($medicamentos);
 
-        return $this->showOne($medicamento, 201);
+        return $this->showOne($medicamentos, 201);
     }
 
     /**
@@ -72,9 +72,9 @@ class MedicamentosController extends ApiController
      */
     public function show($id)
     {
-        $medicamento = Medicamento::findOrfail($id);
+        $medicamentos = medicamento::findOrfail($id);
         
-        return $this->showOne($medicamento);
+        return $this->showOne($medicamentos);
     }
 
     /**
@@ -97,7 +97,7 @@ class MedicamentosController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        $medicamento = Medicamento::findOrfail($id);
+        $medicamentos = medicamento::findOrfail($id);
         $reglas = [        
             
         ];
@@ -105,31 +105,31 @@ class MedicamentosController extends ApiController
   $this->validate($request, $reglas);
 
             if ($request->has('nombre_m')){
-                $medicamento->nombre_m =$request->nombre_m;
+                $medicamentos->nom_m =$request->nom_m;
             }
             if ($request->has('descripcion_m')){
-                $medicamento->descripcion_m =$request->descripcion_m;
+                $medicamentos->desc_m =$request->desc_m;
             }
             if ($request->has('solucion_m')){
-                $medicamento->solucion_m=$request->solucion_m;
+                $medicamentos->solucion_m=$request->solucion_m;
             }
             if ($request->has('porcion_m')){
-                $medicamento->porcion_m =$request->porcion_m;
+                $medicamentos->porcion_m =$request->porcion_m;
             }
 
              if ($request->has('existencia')){
-                $medicamento->existencia =$request->existencia;
+                $medicamentos->existencia =$request->existencia;
             }
              if ($request->has('caducidad')){
-                $medicamento->caducidad =$request->caducidad;
+                $medicamentos->caducidad =$request->caducidad;
             }
             
         
-        if (!$medicamento->isDirty()){
+        if (!$medicamentos->isDirty()){
             return response()->json(['error'=>'Se debe especificar al menos un valor diferente para actualizar','code' => 422],422); }
 
-        $medicamento->save();
-        return response()->json(['data'=> $medicamento,200]);
+        $medicamentos->save();
+        return response()->json(['data'=> $medicamentos,200]);
     }
 
     /**
@@ -140,9 +140,9 @@ class MedicamentosController extends ApiController
      */
     public function destroy($id)
     {
-        $medicamento = Medicamento::findOrfail($id);
-        $medicamento->delete();
+        $medicamentos = Medicamento::findOrfail($id);
+        $medicamentos->delete();
         
-        return $this->showOne($medicamento);
+        return $this->showOne($medicamentos);
     }
 }

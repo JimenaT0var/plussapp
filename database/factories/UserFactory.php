@@ -1,8 +1,10 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-use App\Medicamento;
-use App\Horario;
+use App\horario;
+use App\medicamento;
+use App\dia;
+use App\usuario;
 use Illuminate\Support\Str;
 
 
@@ -18,20 +20,46 @@ use Illuminate\Support\Str;
 */
 
 
-$factory->define(Horario::class, function (Faker\Generator $faker) {
+$factory->define(horario::class, function (Faker\Generator $faker) {
     return [
-        'nombre_m' => $faker->word,
+        'hora_h' => $faker-> numberBetween(1,24),
         'color'=>$faker->word,
     ];
 });
-$factory->define(Medicamento::class, function (Faker\Generator $faker) {
+
+$factory->define(medicamento::class, function (Faker\Generator $faker) {
     return [
-        'nombre_m' => $faker->word,
-        'descripcion_m' => $faker->paragraph(1),
+        'nom_m' => $faker->word,
+        'desc_m' => $faker->paragraph(1),
         'solucion_m' => $faker->word,
-        'porcion_m' => $faker->word,
-        'existencia' => $faker->word,
-        'caducidad' => $faker->word,
+        'porcion_m' => $faker->numberBetween(1,5),
+        'existencia' => $faker->numberBetween(1,100),
+        'caducidad' => $faker-> numberBetween(1,12),
      ];
 });
 
+$factory->define(dia::class, function (Faker\Generator $faker) {
+    return [
+        'dia' => $faker->randomElement(['Lunes', 'Martes', 'Miercoles', 'Jueves','Viernes', 'Sabado', 'Domingo']),
+
+        'fecha'=>$faker-> numberBetween(1,12), //pendiente 
+    ];
+});
+
+$factory->define(usuario::class, function (Faker\Generator $faker) {
+    return [
+        'nom_u' => $faker->word,
+        'app_u' => $faker->word,
+        'apm_u' => $faker->word,
+        'fn_u' => $faker-> numberBetween(1,12), //pediente
+        'genero_u' => $faker->randomElement(['F', 'M']),
+        'col_u' => $faker->word,
+        'typeuser' => $faker->randomElement(['Admin', 'Usuario']),
+        'calle_u' => $faker->word,
+        'mum_u' => $faker->word,
+        'correo' => $faker->word,
+        'vercorreo' => $faker->word,
+        'password' => $faker->word,
+        'verpassword' => $faker->word,
+     ];
+});

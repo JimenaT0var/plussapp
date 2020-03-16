@@ -1,16 +1,14 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
-use App\horario;
+use App\dia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
-use App\Transformers\HorariossTransformers;
 use App\Http\Controllers\ApiController;
 
-class HorariosController extends ApiController
+class DiasController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -19,9 +17,8 @@ class HorariosController extends ApiController
      */
     public function index()
     {
-        $horarios = horario::all();
-     return $horarios;
-        return $this->showAll($horarios);
+        $dias = dia::all();
+        return $this->showAll($dias);
     }
 
     /**
@@ -43,19 +40,11 @@ class HorariosController extends ApiController
     public function store(Request $request)
     {
         $reglas = [
-            'hora_h' => 'required',
-            'color' => 'required'
+
+            'dia' => 'required',
+            'fecha' => 'required',
         ];
-
-        
         $this->validate($request, $reglas);
-
-/*
-        
-*/
-       $horarios = horario::create($horarios);
-
-        return $this->showOne($horarios, 201);
     }
 
     /**
@@ -66,9 +55,9 @@ class HorariosController extends ApiController
      */
     public function show($id)
     {
-        $horarios = horario::findOrfail($id);
+        $dias = dia::findOrfail($id);
         
-        return $this->showOne($horarios);
+        return $this->showOne($dias);
     }
 
     /**
@@ -91,27 +80,32 @@ class HorariosController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        $horarios = horario::findOrfail($id);
-        $reglas = [        
+        $dias = dia::findOrfail($id);
+        $reglas = [
+            
+
             
         ];
 
   $this->validate($request, $reglas);
 
-            if ($request->has('hora_h')){
-                $horarios->hora_m =$request->hora_h;
+            if ($request->has('dia')){
+                $$dias->dia =$request->dia;
             }
- 
-            if ($request->has('color')){
-                $horarios->color =$request->color;
-            }
-            
-        
-        if (!$horarios->isDirty()){
-            return response()->json(['error'=>'Se debe especificar al menos un valor diferente para actualizar','code' => 422],422); }
 
-        $horarios->save();
-        return response()->json(['data'=> $horarios,200]);
+            if ($request->has('fecha') && $dias->fecha != $request->fecha){
+                $dias->fecha = $request->fecha;
+            }
+
+        
+        if (!$dias->isDirty()){
+            return response()->json(['error'=>'Se debe especificar al menos un valor diferente para actualizar','code' => 422],422);
+            
+        }
+
+        $dias->save();
+        return response()->json(['data'=> $dias,200]);
+    
     }
 
     /**
@@ -122,10 +116,9 @@ class HorariosController extends ApiController
      */
     public function destroy($id)
     {
-        $horarios = horario::findOrfail($id);
-        $horarios->delete();
+        $dias = dia::findOrfail($id);
+        $dias->delete();
         
-        return $this->showOne($horarios);
+        return $this->showOne($dias);
     }
 }
-

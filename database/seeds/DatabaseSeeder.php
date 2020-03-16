@@ -1,7 +1,10 @@
 <?php
 
-use App\Medicamento;
-use App\Horario;
+
+use App\horario;
+use App\medicamento;
+use App\dia;
+use App\usuario;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -16,22 +19,30 @@ class DatabaseSeeder extends Seeder
     {
         DB::statement('SET FOREIGN_KEY_CHECKS = 0'); 
         
-        Medicamento::truncate();
-        Horario::truncate();
+        
+        horario::truncate();
+        medicamento::truncate();
+        dia::truncate();
+        usuario::truncate();
+
 
       
-
-        Medicamento::flushEventListeners();
-        Horario::flushEventListeners();
-
-        $cantidadMedicamentos = 10;
-        $cantidadHorarios = 10;
+        horario::flushEventListeners();
+        medicamento::flushEventListeners();
+        dia::flushEventListeners();
+        usuario::flushEventListeners();
 
 
-        factory(Medicamento::class, $cantidadMedicamentos)->create();   
+        $cantidadhorarios = 10;
+        $cantidadmedicamentos = 10;
+        $cantidaddia = 10;
+        $cantidadusuario = 10;
 
-        factory(Horario::class, $cantidadHorarios)->create();
-    
-        
+
+        factory(horario::class, $cantidadhorarios)->create();
+        factory(medicamento::class, $cantidadmedicamentos)->create();
+        factory(dia::class, $cantidaddia)->create();  
+        factory(usuario::class, $cantidadusuario)->create(); 
+
     }
 }
